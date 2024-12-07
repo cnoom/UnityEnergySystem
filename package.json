@@ -1,0 +1,14 @@
+{
+  "name": "com.cnoom.energy",
+  "displayName": "Energy System",
+  "version": "1.0.0",
+  "description": "简单的体力系统",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "private": true,
+  "dependencies": {
+    "com.cnoom.unitytool": "0.9.40"
+  }
+}

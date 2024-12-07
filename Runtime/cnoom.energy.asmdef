@@ -1,0 +1,14 @@
+{
+    "name": "cnoom.energy",
+    "rootNamespace": "cnoom.energy",
+    "references": ["GUID:4f39af9085e346128eab60220543f904"],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

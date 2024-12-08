@@ -2,12 +2,11 @@
 using UnityEngine;
 using System;
 using Cnoom.UnityTool.ActionUtils;
+using Cnoom.UnityTool.LogUtils;
 using Cnoom.UnityTool.StorageUtils;
 
 namespace com.cnoom.energy.Runtime
 {
-
-
     public class EnergySystem : Singleton<EnergySystem>, IStorageUser
     {
         // 当前体力值
@@ -19,14 +18,24 @@ namespace com.cnoom.energy.Runtime
         // 用于记录上次体力恢复到系统时间对应的时间戳（以秒为单位）
         private long lastRecoveryTimeStamp;
 
+        private EnergySystem() { }
+
+        private bool isInit;
+        /// <summary>
+        /// 初始化体力系统
+        /// </summary>
+        /// <param name="energyMax">体力最大值</param>
+        /// <param name="secondsEnergyRecovery">回复速度/秒</param>
         public void Init(int energyMax, int secondsEnergyRecovery)
         {
             maxEnergy = energyMax;
             secondsPerEnergyRecovery = secondsEnergyRecovery;
             currentEnergy = this.GetInt(nameof(currentEnergy), maxEnergy);
             lastRecoveryTimeStamp = long.Parse(this.GetString(nameof(lastRecoveryTimeStamp), GetCurrentTimeStamp().ToString()));
+            ActionSystem.Instance.OnUpdate += Update;
             
-            ActionSystem.Instance
+            isInit = true;
+            Update();
         }
 
         // 获取当前系统时间对应的时间戳（以秒为单位），这里使用DateTime.UtcNow获取更统一的时间标准
@@ -36,11 +45,12 @@ namespace com.cnoom.energy.Runtime
         }
 
         // 消耗体力的方法
-        public bool UseEnergy(int amount)
+        public bool TryUseEnergy(int amount)
         {
             if(currentEnergy >= amount)
             {
                 currentEnergy -= amount;
+                SaveCurrentEnergy();
                 return true;
             }
             return false;
@@ -66,14 +76,35 @@ namespace com.cnoom.energy.Runtime
 
         private void Update()
         {
+            if(!isInit) return;
             long currentTimeStamp = GetCurrentTimeStamp();
             // 计算从上次恢复体力到现在经过的时间（秒数）
             long timeElapsed = currentTimeStamp - lastRecoveryTimeStamp;
             // 根据经过的时间和恢复速度，计算可以恢复的体力点数
             int recoveredEnergy = Mathf.FloorToInt((float)timeElapsed / secondsPerEnergyRecovery);
-            currentEnergy = Mathf.Min(currentEnergy + recoveredEnergy, maxEnergy);
-            // 更新上次体力恢复对应的时间戳，确保下次计算准确
-            lastRecoveryTimeStamp = currentTimeStamp;
+            int ce = Mathf.Min(currentEnergy + recoveredEnergy, maxEnergy);
+            if(ce != currentEnergy)
+            {
+                currentEnergy = ce;
+                SaveCurrentEnergy();
+                UpdateLastRecoveryTimeStamp();
+            }
+        }
+
+        private void UpdateLastRecoveryTimeStamp()
+        {
+            lastRecoveryTimeStamp = GetCurrentTimeStamp();
+            SaveLastRecoveryTimeStamp();
+        }
+
+        private void SaveLastRecoveryTimeStamp()
+        {
+            this.SaveString(nameof(lastRecoveryTimeStamp), lastRecoveryTimeStamp.ToString());
+        }
+
+        private void SaveCurrentEnergy()
+        {
+            this.SaveInt(nameof(currentEnergy), currentEnergy);
         }
     }
 }

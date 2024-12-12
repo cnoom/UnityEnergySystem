@@ -9,6 +9,6 @@
   },
   "private": true,
   "dependencies": {
-    "com.cnoom.unitytool": "0.9.40"
+    "com.cnoom.unitytool": "0.9.50"
   }
 }

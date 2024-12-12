@@ -7,6 +7,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "author": {
+    "name": "cnoom",
+    "email": "cnoom@qq.com"
+  },
   "private": true,
   "dependencies": {
     "com.cnoom.unitytool": "0.9.50"

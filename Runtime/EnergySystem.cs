@@ -28,7 +28,11 @@ namespace com.cnoom.energy.Runtime
             energyRecovery.UpdateRecover();
         }
 
-        // 消耗体力的方法
+        /// <summary>
+        /// 消耗体力的方法
+        /// </summary>
+        /// <param name="amount">消耗数量</param>
+        /// <returns></returns>
         public bool TryUseEnergy(int amount)
         {
             if(GetCurrentEnergy() >= amount)
@@ -39,19 +43,28 @@ namespace com.cnoom.energy.Runtime
             return false;
         }
 
-        // 获取当前体力值
+        /// <summary>
+        /// 增加体力的方法
+        /// </summary>
+        public void AddEnergy(int amount)
+        {
+            data.SetCurrentEnergy(GetCurrentEnergy() + amount);
+        }
+
+        
+        /// <returns>当前体力值</returns>
         public int GetCurrentEnergy()
         {
             return data.GetCurrentEnergy();
         }
-
-        // 获取最大体力值
+        
+        /// <returns>获取最大体力值</returns>
         public int GetMaxEnergy()
         {
             return data.GetMaxEnergy();
         }
 
-        // 检查体力是否已满
+        /// <returns>体力是否已满</returns> 
         public bool IsEnergyFull()
         {
             return data.IsFull();

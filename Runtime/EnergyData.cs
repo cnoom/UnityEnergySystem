@@ -4,7 +4,7 @@ namespace com.cnoom.energy.Runtime
 {
     using UnityEngine;
 
-    // 能量数据管理类，负责存储和管理能量相关数据
+    // 能量数据
     public class EnergyData : IStorageUser
     {
         private int currentEnergy;

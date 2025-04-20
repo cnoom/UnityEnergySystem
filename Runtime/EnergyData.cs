@@ -1,16 +1,15 @@
-﻿using Cnoom.UnityTool.StorageUtils;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace com.cnoom.energy.Runtime
 {
 
-    public class EnergyData : IStorageUser
+    public class EnergyData
     {
+        private readonly int maxEnergy;
         // 新增存储接口字段
         private readonly IEnergyStorage storage;
 
         private int currentEnergy;
-        private readonly int maxEnergy;
 
         // 修改构造函数接收存储接口
         public EnergyData(int max, IEnergyStorage storage)
@@ -40,6 +39,5 @@ namespace com.cnoom.energy.Runtime
         {
             return currentEnergy == maxEnergy;
         }
-
     }
 }

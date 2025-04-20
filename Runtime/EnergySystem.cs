@@ -1,10 +1,9 @@
-﻿
-namespace com.cnoom.energy.Runtime
+﻿namespace com.cnoom.energy.Runtime
 {
     public class EnergySystem
     {
-        private EnergyData data;
-        private EnergyRecovery energyRecovery;
+        private readonly EnergyData data;
+        private readonly EnergyRecovery energyRecovery;
 
         private EnergySystem(EnergyData energyData, IEnergyRecoveryRule energyRecoveryRule)
         {
@@ -18,7 +17,7 @@ namespace com.cnoom.energy.Runtime
         }
 
         /// <summary>
-        /// 消耗体力的方法
+        ///     消耗体力的方法
         /// </summary>
         /// <param name="amount">消耗数量</param>
         /// <returns></returns>
@@ -33,27 +32,27 @@ namespace com.cnoom.energy.Runtime
         }
 
         /// <summary>
-        /// 增加体力的方法
+        ///     增加体力的方法
         /// </summary>
         public void AddEnergy(int amount)
         {
             data.SetCurrentEnergy(GetCurrentEnergy() + amount);
         }
 
-        
+
         /// <returns>当前体力值</returns>
         public int GetCurrentEnergy()
         {
             return data.GetCurrentEnergy();
         }
-        
+
         /// <returns>获取最大体力值</returns>
         public int GetMaxEnergy()
         {
             return data.GetMaxEnergy();
         }
 
-        /// <returns>体力是否已满</returns> 
+        /// <returns>体力是否已满</returns>
         public bool IsEnergyFull()
         {
             return data.IsFull();

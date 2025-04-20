@@ -1,30 +1,19 @@
-﻿using Cnoom.UnityTool.SingletonUtils;
-using UnityEngine;
-using System;
-using Cnoom.UnityTool.ActionUtils;
-using Cnoom.UnityTool.LogUtils;
-using Cnoom.UnityTool.StorageUtils;
-
+﻿
 namespace com.cnoom.energy.Runtime
 {
-    public class EnergySystem : Singleton<EnergySystem>, IStorageUser
+    public class EnergySystem
     {
         private EnergyData data;
         private EnergyRecovery energyRecovery;
 
-        private EnergySystem() { }
-
-        private bool isInit;
-        /// <summary>
-        /// 初始化体力系统
-        /// </summary>
-        public void Init(EnergyData energyData, IEnergyRecoveryRule energyRecoveryRule)
+        private EnergySystem(EnergyData energyData, IEnergyRecoveryRule energyRecoveryRule)
         {
             data = energyData;
             energyRecovery = new EnergyRecovery(energyRecoveryRule, energyData);
-            ActionSystem.Instance.OnUpdate += energyRecovery.UpdateRecover;
+        }
 
-            isInit = true;
+        public void UpdateRecover()
+        {
             energyRecovery.UpdateRecover();
         }
 

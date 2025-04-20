@@ -1,5 +1,4 @@
 ﻿using System;
-using Cnoom.UnityTool.StorageUtils;
 
 namespace com.cnoom.energy.Runtime
 {
@@ -22,21 +21,27 @@ namespace com.cnoom.energy.Runtime
 
     public interface IEnergyRecoveryRule
     {
+        IEnergyStorage Storage { get; set; } 
         void RecoverEnergy(EnergyData energyData);
     }
 
-    public class EnergyRecoveryRuleDefault : IEnergyRecoveryRule, IStorageUser
+    public class EnergyRecoveryRuleDefault : IEnergyRecoveryRule
     {
         private readonly int recoverySeconds;
+        public IEnergyStorage Storage { get; set; }
 
         // 用于记录上次体力恢复到系统时间对应的时间戳（以秒为单位）
         private long lastRecoveryTimeStamp;
 
+        public EnergyRecoveryRuleDefault(IEnergyStorage storage)
+        {
+            Storage = storage;
+        }
+
         public EnergyRecoveryRuleDefault(int recoverySeconds)
         {
             this.recoverySeconds = recoverySeconds;
-            lastRecoveryTimeStamp = long.Parse(this.GetString(nameof(lastRecoveryTimeStamp), lastRecoveryTimeStamp.ToString()));
-
+            lastRecoveryTimeStamp = Storage.Load(nameof(lastRecoveryTimeStamp), lastRecoveryTimeStamp);
         }
 
         public void RecoverEnergy(EnergyData energyData)
@@ -50,7 +55,7 @@ namespace com.cnoom.energy.Runtime
             energyData.SetCurrentEnergy(energyData.GetCurrentEnergy() + recovery);
             
             lastRecoveryTimeStamp = currentTimeStamp;
-            this.SaveString(nameof(lastRecoveryTimeStamp), currentTimeStamp.ToString());
+            Storage.Save(nameof(lastRecoveryTimeStamp), lastRecoveryTimeStamp);
         }
 
         private long GetCurrentTimeStamp()

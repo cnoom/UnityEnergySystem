@@ -1,25 +1,29 @@
 ﻿using Cnoom.UnityTool.StorageUtils;
+using UnityEngine;
 
 namespace com.cnoom.energy.Runtime
 {
-    using UnityEngine;
 
-    // 能量数据
     public class EnergyData : IStorageUser
     {
+        // 新增存储接口字段
+        private readonly IEnergyStorage storage;
+
         private int currentEnergy;
         private readonly int maxEnergy;
 
-        public EnergyData(int max)
+        // 修改构造函数接收存储接口
+        public EnergyData(int max, IEnergyStorage storage)
         {
+            this.storage = storage;
             maxEnergy = max;
-            currentEnergy = Mathf.Clamp(this.GetInt(nameof(currentEnergy), max), 0, maxEnergy);
+            currentEnergy = Mathf.Clamp(storage.Load(nameof(currentEnergy), max), 0, maxEnergy);
         }
 
         public void SetCurrentEnergy(int value)
         {
             currentEnergy = Mathf.Clamp(value, 0, maxEnergy);
-            this.SaveInt(nameof(currentEnergy), currentEnergy);
+            storage.Save(nameof(currentEnergy), currentEnergy);
         }
 
         public int GetCurrentEnergy()
@@ -36,5 +40,6 @@ namespace com.cnoom.energy.Runtime
         {
             return currentEnergy == maxEnergy;
         }
+
     }
 }

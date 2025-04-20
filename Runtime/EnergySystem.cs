@@ -5,7 +5,7 @@
         private readonly EnergyData data;
         private readonly EnergyRecovery energyRecovery;
 
-        private EnergySystem(EnergyData energyData, IEnergyRecoveryRule energyRecoveryRule)
+        public EnergySystem(EnergyData energyData, IEnergyRecoveryRule energyRecoveryRule)
         {
             data = energyData;
             energyRecovery = new EnergyRecovery(energyRecoveryRule, energyData);

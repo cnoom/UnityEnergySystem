@@ -1,7 +1,7 @@
 {
   "name": "com.cnoom.energy",
   "displayName": "Energy System",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "简单的体力系统,无需任何依赖只需实现对应接口即可使用",
   "main": "index.js",
   "scripts": {

@@ -25,6 +25,7 @@
         {
             if(GetCurrentEnergy() >= amount)
             {
+                energyRecovery.TryCostUpdateTimeStam();
                 data.SetCurrentEnergy(GetCurrentEnergy() - amount);
                 return true;
             }

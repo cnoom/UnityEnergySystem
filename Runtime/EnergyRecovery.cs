@@ -35,6 +35,7 @@ namespace com.cnoom.energy.Runtime
         public EnergyRecoveryRuleDefault(int recoverySeconds,IEnergyStorage storage)
         {
             this.recoverySeconds = recoverySeconds;
+            Storage = storage;
             lastRecoveryTimeStamp = Storage.Load(nameof(lastRecoveryTimeStamp), lastRecoveryTimeStamp);
         }
         public IEnergyStorage Storage { get; set; }

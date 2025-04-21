@@ -32,12 +32,7 @@ namespace com.cnoom.energy.Runtime
         // 用于记录上次体力恢复到系统时间对应的时间戳（以秒为单位）
         private long lastRecoveryTimeStamp;
 
-        public EnergyRecoveryRuleDefault(IEnergyStorage storage)
-        {
-            Storage = storage;
-        }
-
-        public EnergyRecoveryRuleDefault(int recoverySeconds)
+        public EnergyRecoveryRuleDefault(int recoverySeconds,IEnergyStorage storage)
         {
             this.recoverySeconds = recoverySeconds;
             lastRecoveryTimeStamp = Storage.Load(nameof(lastRecoveryTimeStamp), lastRecoveryTimeStamp);
